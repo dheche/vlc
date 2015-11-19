@@ -797,8 +797,8 @@ size_t EnumClockSource (vlc_object_t *obj, const char *var,
                         char ***vp, char ***np)
 {
     const size_t max = 6;
-    char **values = xmalloc (sizeof (*values) * max);
-    char **names = xmalloc (sizeof (*names) * max);
+    char **values = vlc_xmalloc (sizeof (*values) * max);
+    char **names = vlc_xmalloc (sizeof (*names) * max);
     size_t n = 0;
 
 #if (_WIN32_WINNT < 0x0601)

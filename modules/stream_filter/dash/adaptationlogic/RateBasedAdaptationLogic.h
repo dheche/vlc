@@ -47,7 +47,6 @@ namespace dash
 
                 dash::http::Chunk*      getNextChunk();
                 const dash::mpd::Representation *getCurrentRepresentation() const;
-
             private:
                 dash::mpd::IMPDManager  *mpdManager;
                 size_t                  count;

@@ -131,7 +131,7 @@ void libvlc_event_manager_register_event_type(
         libvlc_event_type_t event_type )
 {
     libvlc_event_listeners_group_t * listeners_group;
-    listeners_group = xmalloc(sizeof(libvlc_event_listeners_group_t));
+    listeners_group = vlc_xmalloc(sizeof(libvlc_event_listeners_group_t));
     listeners_group->event_type = event_type;
     vlc_array_init( &listeners_group->listeners );
 

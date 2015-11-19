@@ -162,6 +162,5 @@ Representation*             IsoffMainManager::getRepresentation     (Period *per
             best = resMatchReps.at(j);
         }
     }
-
     return best;
 }

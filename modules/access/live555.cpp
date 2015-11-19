@@ -916,7 +916,7 @@ static int SessionsSetup( demux_t *p_demux )
                                                              i_extra ) ) )
                     {
                         tk->fmt.i_extra = i_extra;
-                        tk->fmt.p_extra = xmalloc( i_extra );
+                        tk->fmt.p_extra = vlc_xmalloc( i_extra );
                         memcpy( tk->fmt.p_extra, p_extra, i_extra );
                         delete[] p_extra;
                     }
@@ -936,7 +936,7 @@ static int SessionsSetup( demux_t *p_demux )
                                                            i_extra ) ) )
                     {
                         tk->fmt.i_extra = i_extra;
-                        tk->fmt.p_extra = xmalloc( i_extra );
+                        tk->fmt.p_extra = vlc_xmalloc( i_extra );
                         memcpy( tk->fmt.p_extra, p_extra, i_extra );
                         delete[] p_extra;
                     }
@@ -1007,7 +1007,7 @@ static int SessionsSetup( demux_t *p_demux )
                                                     i_extra ) ) )
                     {
                         tk->fmt.i_extra = i_extra;
-                        tk->fmt.p_extra = xmalloc( i_extra );
+                        tk->fmt.p_extra = vlc_xmalloc( i_extra );
                         memcpy( tk->fmt.p_extra, p_extra, i_extra );
 
                         delete[] p_extra;
@@ -1028,7 +1028,7 @@ static int SessionsSetup( demux_t *p_demux )
                                                            i_extra ) ) )
                     {
                         tk->fmt.i_extra = i_extra;
-                        tk->fmt.p_extra = xmalloc( i_extra );
+                        tk->fmt.p_extra = vlc_xmalloc( i_extra );
                         memcpy( tk->fmt.p_extra, p_extra, i_extra );
                         delete[] p_extra;
                     }
@@ -1826,7 +1826,7 @@ static void StreamRead( void *p_private, unsigned int i_size,
                         atomLength <= INT_MAX )
                     {
                         tk->fmt.i_extra = atomLength-8;
-                        tk->fmt.p_extra = xmalloc( tk->fmt.i_extra );
+                        tk->fmt.p_extra = vlc_xmalloc( tk->fmt.i_extra );
                         memcpy(tk->fmt.p_extra, pos+8, atomLength-8);
                         break;
                     }
@@ -1836,7 +1836,7 @@ static void StreamRead( void *p_private, unsigned int i_size,
             else
             {
                 tk->fmt.i_extra        = qtState.sdAtomSize - 16;
-                tk->fmt.p_extra        = xmalloc( tk->fmt.i_extra );
+                tk->fmt.p_extra        = vlc_xmalloc( tk->fmt.i_extra );
                 memcpy( tk->fmt.p_extra, &sdAtom[12], tk->fmt.i_extra );
             }
         }
@@ -2164,7 +2164,7 @@ static uint8_t *parseVorbisConfigStr( char const* configStr,
     if( configSize > headerSkip && ((uint8_t*)p_cfg)[3] == 1 )
     {
         configSize -= headerSkip;
-        p_extra = (uint8_t*)xmalloc( configSize );
+        p_extra = (uint8_t*)vlc_xmalloc( configSize );
         memcpy( p_extra, p_cfg+headerSkip, configSize );
     }
     delete[] p_cfg;

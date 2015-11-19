@@ -961,8 +961,8 @@ static int DeviceList(audio_output_t *p_aout, char ***namesp, char ***descsp)
     for (struct audio_device_t *device = p_sys->devices; device != NULL; device = device->next)
         n++;
 
-    *namesp = names = xmalloc(sizeof(*names) * n);
-    *descsp = descs = xmalloc(sizeof(*descs) * n);
+    *namesp = names = vlc_xmalloc(sizeof(*names) * n);
+    *descsp = descs = vlc_xmalloc(sizeof(*descs) * n);
 
     char deviceid[100];
     for (struct audio_device_t *device = p_sys->devices; device != NULL; device = device->next) {

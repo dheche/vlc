@@ -568,7 +568,7 @@ static int MMSOpen( access_t  *p_access, vlc_url_t *p_url, int  i_proto )
 #define GETUTF16( psz, size ) \
     { \
         int i; \
-        psz = xmalloc( size + 1); \
+        psz = vlc_xmalloc( size + 1); \
         for( i = 0; i < size; i++ ) \
         { \
             psz[i] = p[i]; \
@@ -1157,7 +1157,7 @@ static int  mms_ParseCommand( access_t *p_access,
 
     free( p_sys->p_cmd );
     p_sys->i_cmd = i_data;
-    p_sys->p_cmd = xmalloc( i_data );
+    p_sys->p_cmd = vlc_xmalloc( i_data );
     memcpy( p_sys->p_cmd, p_data, i_data );
 
     *pi_used = i_data; /* by default */
@@ -1289,7 +1289,7 @@ static int  mms_ParsePacket( access_t *p_access,
         }
         else
         {
-            uint8_t* p_packet = xmalloc( i_packet_length - 8 ); // don't bother with preheader
+            uint8_t* p_packet = vlc_xmalloc( i_packet_length - 8 ); // don't bother with preheader
             memcpy( p_packet, p_data + 8, i_packet_length - 8 );
             p_sys->p_header = p_packet;
             p_sys->i_header = i_packet_length - 8;
@@ -1302,7 +1302,7 @@ static int  mms_ParsePacket( access_t *p_access,
     }
     else
     {
-        uint8_t* p_packet = xmalloc( i_packet_length - 8 ); // don't bother with preheader
+        uint8_t* p_packet = vlc_xmalloc( i_packet_length - 8 ); // don't bother with preheader
         memcpy( p_packet, p_data + 8, i_packet_length - 8 );
         FREENULL( p_sys->p_media );
         p_sys->p_media = p_packet;

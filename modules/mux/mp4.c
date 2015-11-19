@@ -1897,7 +1897,7 @@ static void bo_init( bo_t *p_bo, int i_size, uint8_t *p_buffer,
     if( !p_buffer )
     {
         p_bo->i_buffer_size = __MAX( i_size, 1024 );
-        p_bo->p_buffer = xmalloc( p_bo->i_buffer_size );
+        p_bo->p_buffer = vlc_xmalloc( p_bo->i_buffer_size );
     }
     else
     {

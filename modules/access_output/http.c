@@ -207,7 +207,7 @@ static int Open( vlc_object_t *p_this )
 
     p_sys->i_header_allocated = 1024;
     p_sys->i_header_size      = 0;
-    p_sys->p_header           = xmalloc( p_sys->i_header_allocated );
+    p_sys->p_header           = vlc_xmalloc( p_sys->i_header_allocated );
     p_sys->b_header_complete  = false;
 
     p_access->pf_write       = Write;

@@ -360,8 +360,8 @@ ssize_t config_GetIntChoices (vlc_object_t *obj, const char *name,
         return cfg->list.i_cb(obj, name, values, texts);
     }
 
-    int64_t *vals = xmalloc (sizeof (*vals) * count);
-    char **txts = xmalloc (sizeof (*txts) * count);
+    int64_t *vals = vlc_xmalloc (sizeof (*vals) * count);
+    char **txts = vlc_xmalloc (sizeof (*txts) * count);
 
     for (size_t i = 0; i < count; i++)
     {
@@ -390,8 +390,8 @@ static ssize_t config_ListModules (const char *cap, char ***restrict values,
         return n;
     }
 
-    char **vals = xmalloc ((n + 2) * sizeof (*vals));
-    char **txts = xmalloc ((n + 2) * sizeof (*txts));
+    char **vals = vlc_xmalloc ((n + 2) * sizeof (*vals));
+    char **txts = vlc_xmalloc ((n + 2) * sizeof (*txts));
 
     vals[0] = xstrdup ("any");
     txts[0] = xstrdup (_("Automatic"));
@@ -453,8 +453,8 @@ ssize_t config_GetPszChoices (vlc_object_t *obj, const char *name,
         return cfg->list.psz_cb(obj, name, values, texts);
     }
 
-    char **vals = xmalloc (sizeof (*vals) * count);
-    char **txts = xmalloc (sizeof (*txts) * count);
+    char **vals = vlc_xmalloc (sizeof (*vals) * count);
+    char **txts = vlc_xmalloc (sizeof (*txts) * count);
 
     for (size_t i = 0; i < count; i++)
     {

@@ -332,7 +332,7 @@ static int TPDURecv( cam_t *p_cam, uint8_t i_slot, uint8_t *pi_tag,
 
     if ( pi_size == NULL )
     {
-        p_data = xmalloc( MAX_TPDU_SIZE );
+        p_data = vlc_xmalloc( MAX_TPDU_SIZE );
     }
 
     for ( ; ; )
@@ -412,7 +412,7 @@ static int ResourceIdToInt( uint8_t *p_data )
 static int SPDUSend( cam_t * p_cam, int i_session_id,
                      uint8_t *p_data, int i_size )
 {
-    uint8_t *p_spdu = xmalloc( i_size + 4 );
+    uint8_t *p_spdu = vlc_xmalloc( i_size + 4 );
     uint8_t *p = p_spdu;
     uint8_t i_tag;
     uint8_t i_slot = p_cam->p_sessions[i_session_id - 1].i_slot;
@@ -849,7 +849,7 @@ static uint8_t *APDUGetLength( uint8_t *p_apdu, int *pi_size )
 static int APDUSend( cam_t * p_cam, int i_session_id, int i_tag,
                      uint8_t *p_data, int i_size )
 {
-    uint8_t *p_apdu = xmalloc( i_size + 12 );
+    uint8_t *p_apdu = vlc_xmalloc( i_size + 12 );
     uint8_t *p = p_apdu;
     ca_msg_t ca_msg;
     int i_ret;
@@ -1090,9 +1090,9 @@ static uint8_t *CAPMTHeader( system_ids_t *p_ids, uint8_t i_list_mgt,
     uint8_t *p_data;
 
     if ( i_size )
-        p_data = xmalloc( 7 + i_size );
+        p_data = vlc_xmalloc( 7 + i_size );
     else
-        p_data = xmalloc( 6 );
+        p_data = vlc_xmalloc( 6 );
 
     p_data[0] = i_list_mgt;
     p_data[1] = i_program_number >> 8;
@@ -1628,7 +1628,7 @@ static void MMISendObject( cam_t *p_cam, int i_session_id,
     case EN50221_MMI_ANSW:
         i_tag = AOT_ANSW;
         i_size = 1 + strlen( p_object->u.answ.psz_answ );
-        p_data = xmalloc( i_size );
+        p_data = vlc_xmalloc( i_size );
         p_data[0] = p_object->u.answ.b_ok ? 0x1 : 0x0;
         strncpy( (char *)&p_data[1], p_object->u.answ.psz_answ, i_size - 1 );
         break;
@@ -1636,7 +1636,7 @@ static void MMISendObject( cam_t *p_cam, int i_session_id,
     case EN50221_MMI_MENU_ANSW:
         i_tag = AOT_MENU_ANSW;
         i_size = 1;
-        p_data = xmalloc( i_size );
+        p_data = vlc_xmalloc( i_size );
         p_data[0] = p_object->u.menu_answ.i_choice;
         break;
 
@@ -1721,7 +1721,7 @@ static void MMIHandleEnq( cam_t *p_cam, int i_session_id,
     p_mmi->u.enq.b_blind = (*d & 0x1) ? true : false;
     d += 2; /* skip answer_text_length because it is not mandatory */
     l -= 2;
-    p_mmi->u.enq.psz_text = xmalloc( l + 1 );
+    p_mmi->u.enq.psz_text = vlc_xmalloc( l + 1 );
     strncpy( p_mmi->u.enq.psz_text, (char *)d, l );
     p_mmi->u.enq.psz_text[l] = '\0';
 
@@ -1860,7 +1860,7 @@ static void MMIOpen( cam_t *p_cam, unsigned i_session_id )
 
     p_cam->p_sessions[i_session_id - 1].pf_handle = MMIHandle;
     p_cam->p_sessions[i_session_id - 1].pf_close = MMIClose;
-    p_cam->p_sessions[i_session_id - 1].p_sys = xmalloc(sizeof(mmi_t));
+    p_cam->p_sessions[i_session_id - 1].p_sys = vlc_xmalloc(sizeof(mmi_t));
     p_mmi = (mmi_t *)p_cam->p_sessions[i_session_id - 1].p_sys;
     p_mmi->i_object_type = EN50221_MMI_NONE;
 }

@@ -29,6 +29,8 @@
 # include "config.h"
 #endif
 
+
+#include <oml2/omlc.h>
 #include <vlc/vlc.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -201,6 +203,18 @@ int main( int i_argc, const char *ppsz_argv[] )
     pthread_t self = pthread_self ();
     pthread_sigmask (SIG_SETMASK, &set, NULL);
 
+   /* Pass arguments to OML */
+   int result_init = omlc_init ("vlc", &i_argc, ppsz_argv, NULL);
+   if (result_init == -1) {
+       fprintf (stderr, "Could not initialize OML\n");
+   }
+   // int result = omlc_start();
+
+   // if (result == -1) {
+   //   fprintf (stderr, "Error starting up OML measurement streams\n");
+   //   exit (1);
+
+   // }
     const char *argv[i_argc + 2];
     int argc = 0;
 

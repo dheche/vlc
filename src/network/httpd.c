@@ -367,7 +367,7 @@ httpd_file_t *httpd_FileNew( httpd_host_t *host,
                              httpd_file_callback_t pf_fill,
                              httpd_file_sys_t *p_sys )
 {
-    httpd_file_t *file = xmalloc( sizeof( httpd_file_t ) );
+    httpd_file_t *file = vlc_xmalloc( sizeof( httpd_file_t ) );
 
     file->url = httpd_UrlNew( host, psz_url, psz_user, psz_password );
     if( file->url == NULL )
@@ -497,7 +497,7 @@ httpd_HandlerCallBack( httpd_callback_sys_t *p_sys, httpd_client_t *cl,
         psz_status = httpd_ReasonFromCode( i_status );
         answer->i_body = sizeof("HTTP/1.0 xxx \r\n")
                         + strlen(psz_status) + i_headers - 1;
-        psz_new = (char *)xmalloc( answer->i_body + 1);
+        psz_new = (char *)vlc_xmalloc( answer->i_body + 1);
         sprintf( psz_new, "HTTP/1.0 %03d %s\r\n", i_status, psz_status );
         memcpy( &psz_new[strlen(psz_new)], psz_headers, i_headers );
         free( answer->p_body );
@@ -513,7 +513,7 @@ httpd_handler_t *httpd_HandlerNew( httpd_host_t *host, const char *psz_url,
                                    httpd_handler_callback_t pf_fill,
                                    httpd_handler_sys_t *p_sys )
 {
-    httpd_handler_t *handler = xmalloc( sizeof( httpd_handler_t ) );
+    httpd_handler_t *handler = vlc_xmalloc( sizeof( httpd_handler_t ) );
 
     handler->url = httpd_UrlNew( host, psz_url, psz_user, psz_password );
     if( handler->url == NULL )
@@ -583,7 +583,7 @@ static int httpd_RedirectCallBack( httpd_callback_sys_t *p_sys,
 httpd_redirect_t *httpd_RedirectNew( httpd_host_t *host, const char *psz_url_dst,
                                      const char *psz_url_src )
 {
-    httpd_redirect_t *rdir = xmalloc( sizeof( httpd_redirect_t ) );
+    httpd_redirect_t *rdir = vlc_xmalloc( sizeof( httpd_redirect_t ) );
 
     rdir->url = httpd_UrlNew( host, psz_url_src, NULL, NULL );
     if( rdir->url == NULL )
@@ -690,7 +690,7 @@ static int httpd_StreamCallBack( httpd_callback_sys_t *p_sys,
         answer->i_type   = HTTPD_MSG_ANSWER;
 
         answer->i_body = i_write;
-        answer->p_body = xmalloc( i_write );
+        answer->p_body = vlc_xmalloc( i_write );
         memcpy( answer->p_body, &stream->p_buffer[i_pos], i_write );
 
         answer->i_body_offset += i_write;
@@ -713,7 +713,7 @@ static int httpd_StreamCallBack( httpd_callback_sys_t *p_sys,
             if( stream->i_header > 0 )
             {
                 answer->i_body = stream->i_header;
-                answer->p_body = xmalloc( stream->i_header );
+                answer->p_body = vlc_xmalloc( stream->i_header );
                 memcpy( answer->p_body, stream->p_header, stream->i_header );
             }
             answer->i_body_offset = stream->i_buffer_last_pos;
@@ -766,7 +766,7 @@ httpd_stream_t *httpd_StreamNew( httpd_host_t *host,
                                  const char *psz_url, const char *psz_mime,
                                  const char *psz_user, const char *psz_password )
 {
-    httpd_stream_t *stream = xmalloc( sizeof( httpd_stream_t ) );
+    httpd_stream_t *stream = vlc_xmalloc( sizeof( httpd_stream_t ) );
 
     stream->url = httpd_UrlNew( host, psz_url, psz_user, psz_password );
     if( stream->url == NULL )
@@ -786,7 +786,7 @@ httpd_stream_t *httpd_StreamNew( httpd_host_t *host,
     stream->i_header = 0;
     stream->p_header = NULL;
     stream->i_buffer_size = 5000000;    /* 5 Mo per stream */
-    stream->p_buffer = xmalloc( stream->i_buffer_size );
+    stream->p_buffer = vlc_xmalloc( stream->i_buffer_size );
     /* We set to 1 to make life simpler
      * (this way i_body_offset can never be 0) */
     stream->i_buffer_pos = 1;
@@ -811,7 +811,7 @@ int httpd_StreamHeader( httpd_stream_t *stream, uint8_t *p_data, int i_data )
     stream->i_header = i_data;
     if( i_data > 0 )
     {
-        stream->p_header = xmalloc( i_data );
+        stream->p_header = vlc_xmalloc( i_data );
         memcpy( stream->p_header, p_data, i_data );
     }
     vlc_mutex_unlock( &stream->lock );
@@ -1124,7 +1124,7 @@ httpd_url_t *httpd_UrlNew( httpd_host_t *host, const char *psz_url,
         }
     }
 
-    url = xmalloc( sizeof( httpd_url_t ) );
+    url = vlc_xmalloc( sizeof( httpd_url_t ) );
     url->host = host;
 
     vlc_mutex_init( &url->lock );
@@ -1272,7 +1272,7 @@ static void httpd_ClientInit( httpd_client_t *cl, mtime_t now )
     cl->i_activity_timeout = INT64_C(10000000);
     cl->i_buffer_size = HTTPD_CL_BUFSIZE;
     cl->i_buffer = 0;
-    cl->p_buffer = xmalloc( cl->i_buffer_size );
+    cl->p_buffer = vlc_xmalloc( cl->i_buffer_size );
     cl->b_stream_mode = false;
 
     httpd_MsgInit( &cl->query );
@@ -1803,7 +1803,7 @@ static void httpd_ClientSend( httpd_client_t *cl )
         {
             cl->i_buffer_size = i_size;
             free( cl->p_buffer );
-            cl->p_buffer = xmalloc( i_size );
+            cl->p_buffer = vlc_xmalloc( i_size );
         }
         p = (char *)cl->p_buffer;
 
@@ -2186,7 +2186,7 @@ static void* httpd_HostThread( void *data )
                         cl->i_buffer = 0;
                         cl->i_buffer_size = 1000;
                         free( cl->p_buffer );
-                        cl->p_buffer = xmalloc( cl->i_buffer_size );
+                        cl->p_buffer = vlc_xmalloc( cl->i_buffer_size );
                         cl->i_state = HTTPD_CLIENT_RECEIVING;
                     }
                     else

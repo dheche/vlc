@@ -1450,8 +1450,8 @@ static int FindDevicesCallback(vlc_object_t *object, const char *name,
 {
     enum_context_t ctx;
 
-    ctx.values = xmalloc(sizeof(char *));
-    ctx.descs = xmalloc(sizeof(char *));
+    ctx.values = vlc_xmalloc(sizeof(char *));
+    ctx.descs = vlc_xmalloc(sizeof(char *));
     ctx.values[0] = strdup("");
     ctx.descs[0] = strdup(_("Default"));
     ctx.count = 1;

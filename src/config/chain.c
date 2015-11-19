@@ -461,7 +461,7 @@ char *config_StringEscape( const char *str )
     for( const char *p = str; *p; p++ )
         length += IsEscapeNeeded( *p ) ? 2 : 1;
 
-    char *ret = xmalloc( length + 1 ), *dst = ret;
+    char *ret = vlc_xmalloc( length + 1 ), *dst = ret;
     for( const char *p = str; *p; p++ )
     {
         if( IsEscapeNeeded( *p ) )

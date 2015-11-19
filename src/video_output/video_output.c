@@ -741,7 +741,7 @@ static void ThreadChangeFilters(vout_thread_t *vout,
         char *next = config_ChainCreate(&name, &cfg, current);
 
         if (name && *name) {
-            vout_filter_t *e = xmalloc(sizeof(*e));
+            vout_filter_t *e = vlc_xmalloc(sizeof(*e));
             e->name = name;
             e->cfg  = cfg;
             if (!strcmp(e->name, "deinterlace") ||

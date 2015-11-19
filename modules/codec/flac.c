@@ -556,7 +556,7 @@ EncoderWriteCallback( const FLAC__StreamEncoder *encoder,
 
             /* Backup the STREAMINFO metadata block */
             p_enc->fmt_out.i_extra = STREAMINFO_SIZE + 4;
-            p_enc->fmt_out.p_extra = xmalloc( STREAMINFO_SIZE + 4 );
+            p_enc->fmt_out.p_extra = vlc_xmalloc( STREAMINFO_SIZE + 4 );
             memcpy( p_enc->fmt_out.p_extra, "fLaC", 4 );
             memcpy( ((uint8_t *)p_enc->fmt_out.p_extra) + 4, buffer,
                     STREAMINFO_SIZE );

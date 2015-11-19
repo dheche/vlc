@@ -373,8 +373,8 @@ static int DevicesEnum (audio_output_t *aout, char ***idp, char ***namep)
     msg_Dbg (aout, "using %s version %s (0x%06X) under %s", si.product,
              si.version, si.versionnum, si.license);
 
-    char **ids = xmalloc (sizeof (*ids) * si.numaudios);
-    char **names = xmalloc (sizeof (*names) * si.numaudios);
+    char **ids = vlc_xmalloc (sizeof (*ids) * si.numaudios);
+    char **names = vlc_xmalloc (sizeof (*names) * si.numaudios);
     int n = 0;
 
     for (int i = 0; i < si.numaudios; i++)

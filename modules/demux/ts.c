@@ -393,10 +393,10 @@ static int DetectPacketSize( demux_t *p_demux )
          * http://www.i-topfield.com/data/product/firmware/Structure%20of%20Recorded%20File%20in%20TF5000PVR%20(Feb%2021%202004).doc
          * but after the filename the offsets seem to be incorrect.  - DJ */
         int i_duration, i_name;
-        char *psz_name = xmalloc(25);
+        char *psz_name = vlc_xmalloc(25);
         char *psz_event_name;
-        char *psz_event_text = xmalloc(130);
-        char *psz_ext_text = xmalloc(1025);
+        char *psz_event_text = vlc_xmalloc(130);
+        char *psz_ext_text = vlc_xmalloc(1025);
 
         // 2 bytes version Uimsbf (4,5)
         // 2 bytes reserved (6,7)
@@ -431,7 +431,7 @@ static int DetectPacketSize( demux_t *p_demux )
         // 1 byte event name length Uimsbf (89)
         i_name = (int)(p_peek[89]&~0x81);
         msg_Dbg( p_demux, "event name length = %d", i_name);
-        psz_event_name = xmalloc( i_name+1 );
+        psz_event_name = vlc_xmalloc( i_name+1 );
         // 1 byte parental rating (90)
         // 129 bytes of event text
         memcpy( psz_event_name, &p_peek[91], i_name );
@@ -622,7 +622,7 @@ static int Open( vlc_object_t *p_this )
             {
                 p_sys->i_ts_read = 1500 / p_sys->i_packet_size;
             }
-            p_sys->buffer = xmalloc( p_sys->i_packet_size * p_sys->i_ts_read );
+            p_sys->buffer = vlc_xmalloc( p_sys->i_packet_size * p_sys->i_ts_read );
         }
     }
     free( psz_string );
@@ -1301,7 +1301,7 @@ static void PIDInit( ts_pid_t *pid, bool b_psi, ts_psi_t *p_owner )
 
         if( !b_old_valid )
         {
-            pid->psi = xmalloc( sizeof( ts_psi_t ) );
+            pid->psi = vlc_xmalloc( sizeof( ts_psi_t ) );
             pid->psi->handle = NULL;
             TAB_INIT( pid->psi->i_prg, pid->psi->prg );
         }
@@ -2477,7 +2477,7 @@ static iod_descriptor_t *IODNew( int i_data, uint8_t *p_data )
             dec_descr->i_extra = IODDescriptorLength( &i_data, &p_data );
             if( dec_descr->i_extra > 0 )
             {
-                dec_descr->p_extra = xmalloc( dec_descr->i_extra );
+                dec_descr->p_extra = vlc_xmalloc( dec_descr->i_extra );
                 memcpy(dec_descr->p_extra, p_data, dec_descr->i_extra);
                 p_data += dec_descr->i_extra;
                 i_data -= dec_descr->i_extra;

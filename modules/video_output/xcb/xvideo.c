@@ -892,8 +892,8 @@ static int EnumAdaptors (vlc_object_t *obj, const char *var,
          xcb_xv_adaptor_info_next (&it))
         n++;
 
-    int64_t *values = xmalloc ((n + 1) * sizeof (*values));
-    char **texts = xmalloc ((n + 1) * sizeof (*texts));
+    int64_t *values = vlc_xmalloc ((n + 1) * sizeof (*values));
+    char **texts = vlc_xmalloc ((n + 1) * sizeof (*texts));
     *vp = values;
     *tp = texts;
     n = 0;

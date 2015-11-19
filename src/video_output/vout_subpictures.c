@@ -204,7 +204,7 @@ static filter_t *SpuRenderCreateAndLoadText(spu_t *spu)
     if (!text)
         return NULL;
 
-    text->p_owner = xmalloc(sizeof(*text->p_owner));
+    text->p_owner = vlc_xmalloc(sizeof(*text->p_owner));
     text->p_owner->spu = spu;
 
     es_format_Init(&text->fmt_in, VIDEO_ES, 0);

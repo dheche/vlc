@@ -705,8 +705,8 @@ static int ReloadWaveoutDevices( vlc_object_t *p_this, char const *psz_name,
 
     VLC_UNUSED( p_this); VLC_UNUSED( psz_name );
 
-    *values = xmalloc( (nb_devices + 1) * sizeof(char *) );
-    *descs = xmalloc( (nb_devices + 1) * sizeof(char *) );
+    *values = vlc_xmalloc( (nb_devices + 1) * sizeof(char *) );
+    *descs = vlc_xmalloc( (nb_devices + 1) * sizeof(char *) );
 
     (*values)[n] = strdup( "wavemapper" );
     (*descs)[n] = strdup( _("Microsoft Soundmapper") );

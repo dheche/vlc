@@ -252,7 +252,7 @@ static sout_stream_id_t * AddOut( sout_stream_t *p_stream, es_format_t *p_fmt )
     p_bridge = var_GetAddress( p_stream->p_libvlc, p_sys->psz_name );
     if ( p_bridge == NULL )
     {
-        p_bridge = xmalloc( sizeof( bridge_t ) );
+        p_bridge = vlc_xmalloc( sizeof( bridge_t ) );
 
         var_Create( p_stream->p_libvlc, p_sys->psz_name, VLC_VAR_ADDRESS );
         var_SetAddress( p_stream->p_libvlc, p_sys->psz_name, p_bridge );
@@ -272,7 +272,7 @@ static sout_stream_id_t * AddOut( sout_stream_t *p_stream, es_format_t *p_fmt )
         p_bridge->pp_es = xrealloc( p_bridge->pp_es,
                           (p_bridge->i_es_num + 1) * sizeof(bridged_es_t *) );
         p_bridge->i_es_num++;
-        p_bridge->pp_es[i] = xmalloc( sizeof(bridged_es_t) );
+        p_bridge->pp_es[i] = vlc_xmalloc( sizeof(bridged_es_t) );
     }
 
     p_sys->p_es = p_es = p_bridge->pp_es[i];

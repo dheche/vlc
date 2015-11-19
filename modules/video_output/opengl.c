@@ -727,7 +727,7 @@ static void Upload(vout_display_opengl_t *vgl, int in_width, int in_height,
         if( !vgl->texture_temp_buf || vgl->texture_temp_buf_size < buf_size )
         {
             free( vgl->texture_temp_buf );
-            vgl->texture_temp_buf = xmalloc( buf_size );
+            vgl->texture_temp_buf = vlc_xmalloc( buf_size );
             vgl->texture_temp_buf_size = buf_size;
         }
         destination = vgl->texture_temp_buf;

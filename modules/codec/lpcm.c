@@ -465,7 +465,7 @@ static int OpenEncoder( vlc_object_t *p_this )
 
     /* In DVD LCPM, a frame is always 150 PTS ticks. */
     p_sys->i_frame_samples = p_enc->fmt_in.audio.i_rate * 150 / 90000;
-    p_sys->p_buffer = xmalloc(p_sys->i_frame_samples
+    p_sys->p_buffer = vlc_xmalloc(p_sys->i_frame_samples
                             * p_enc->fmt_in.audio.i_channels * 16);
     p_sys->i_buffer_used = 0;
     p_sys->i_frame_num = 0;

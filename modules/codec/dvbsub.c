@@ -916,7 +916,7 @@ static void decode_region_composition( decoder_t *p_dec, bs_t *s )
             free( p_region->p_pixbuf );
         }
 
-        p_region->p_pixbuf = xmalloc( i_height * i_width );
+        p_region->p_pixbuf = vlc_xmalloc( i_height * i_width );
         p_region->i_depth = 0;
         b_fill = true;
     }
@@ -1837,7 +1837,7 @@ static subpicture_t *YuvaYuvp( subpicture_t *p_subpic )
 #endif
 
 #ifndef RANDOM_DITHERING
-        pi_delta = xmalloc( ( p_region->p_picture->p[0].i_pitch + 1 )
+        pi_delta = vlc_xmalloc( ( p_region->p_picture->p[0].i_pitch + 1 )
                             * sizeof(int) * 4  );
         for( i = 0; i < (p_region->p_picture->p[0].i_pitch + 1) * 4 ; i++ )
         {

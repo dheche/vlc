@@ -673,8 +673,8 @@ static int SinksList(audio_output_t *aout, char ***namesp, char ***descsp)
     for (struct sink *sink = sys->sinks; sink != NULL; sink = sink->next)
         n++;
 
-    *namesp = names = xmalloc(sizeof(*names) * n);
-    *descsp = descs = xmalloc(sizeof(*descs) * n);
+    *namesp = names = vlc_xmalloc(sizeof(*names) * n);
+    *descsp = descs = vlc_xmalloc(sizeof(*descs) * n);
 
     for (struct sink *sink = sys->sinks; sink != NULL; sink = sink->next)
     {

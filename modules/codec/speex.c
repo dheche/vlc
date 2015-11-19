@@ -495,7 +495,7 @@ static void *ProcessPacket( decoder_t *p_dec, ogg_packet *p_oggpacket,
             block_t *p_new_block = NULL;
 
             i_pcm_output_size = p_sys->p_header->frame_size;
-            p_frame_holder = (short*)xmalloc( sizeof(short)*i_pcm_output_size );
+            p_frame_holder = (short*)vlc_xmalloc( sizeof(short)*i_pcm_output_size );
 
                 speex_bits_read_from( &p_sys->bits, (char*)p_oggpacket->packet,
                 p_oggpacket->bytes);
@@ -955,7 +955,7 @@ static int OpenEncoder( vlc_object_t *p_this )
 
     p_sys->i_frame_size = p_sys->i_frame_length *
         sizeof(int16_t) * p_enc->fmt_in.audio.i_channels;
-    p_sys->p_buffer = xmalloc( p_sys->i_frame_size );
+    p_sys->p_buffer = vlc_xmalloc( p_sys->i_frame_size );
 
     /* Create and store headers */
     pp_header[0] = speex_header_to_packet( &p_sys->header, &pi_header[0] );
@@ -963,7 +963,7 @@ static int OpenEncoder( vlc_object_t *p_this )
     pi_header[1] = sizeof("ENCODER=VLC media player");
 
     p_enc->fmt_out.i_extra = 3 * 2 + pi_header[0] + pi_header[1];
-    p_extra = p_enc->fmt_out.p_extra = xmalloc( p_enc->fmt_out.i_extra );
+    p_extra = p_enc->fmt_out.p_extra = vlc_xmalloc( p_enc->fmt_out.i_extra );
     for( i = 0; i < 2; i++ )
     {
         *(p_extra++) = pi_header[i] >> 8;

@@ -49,7 +49,7 @@ static inline void libvlc_media_list_path_dump( const libvlc_media_list_path_t p
  **************************************************************************/
 static inline libvlc_media_list_path_t libvlc_media_list_path_empty( void )
 {
-    libvlc_media_list_path_t ret = xmalloc(sizeof(int));
+    libvlc_media_list_path_t ret = vlc_xmalloc(sizeof(int));
     ret[0] = -1;
     return ret;
 }
@@ -59,7 +59,7 @@ static inline libvlc_media_list_path_t libvlc_media_list_path_empty( void )
  **************************************************************************/
 static inline libvlc_media_list_path_t libvlc_media_list_path_with_root_index( int index )
 {
-    libvlc_media_list_path_t ret = xmalloc(sizeof(int)*2);
+    libvlc_media_list_path_t ret = vlc_xmalloc(sizeof(int)*2);
     ret[0] = index;
     ret[1] = -1;
     return ret;
@@ -93,7 +93,7 @@ static inline libvlc_media_list_path_t libvlc_media_list_path_copy_by_appending(
 {
     libvlc_media_list_path_t ret;
     int old_depth = libvlc_media_list_path_depth( path );
-    ret = xmalloc( sizeof(int) * (old_depth + 2) );
+    ret = vlc_xmalloc( sizeof(int) * (old_depth + 2) );
     memcpy( ret, path, sizeof(int) * old_depth );
     ret[old_depth] = index;
     ret[old_depth+1] = -1;
@@ -107,7 +107,7 @@ static inline libvlc_media_list_path_t libvlc_media_list_path_copy( const libvlc
 {
     libvlc_media_list_path_t ret;
     int depth = libvlc_media_list_path_depth( path );
-    ret = xmalloc( sizeof(int)*(depth+1) );
+    ret = vlc_xmalloc( sizeof(int)*(depth+1) );
     memcpy( ret, path, sizeof(int)*(depth+1) );
     return ret;
 }

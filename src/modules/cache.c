@@ -145,7 +145,7 @@ static int CacheLoadConfig (module_config_t *cfg, FILE *file)
             cfg->value.psz = NULL;
 
         if (cfg->list_count)
-            cfg->list.psz = xmalloc (cfg->list_count * sizeof (char *));
+            cfg->list.psz = vlc_xmalloc (cfg->list_count * sizeof (char *));
         else /* TODO: fix config_GetPszChoices() instead of this hack: */
             LOAD_IMMEDIATE(cfg->list.psz_cb);
         for (unsigned i = 0; i < cfg->list_count; i++)
@@ -164,13 +164,13 @@ static int CacheLoadConfig (module_config_t *cfg, FILE *file)
         cfg->value = cfg->orig;
 
         if (cfg->list_count)
-            cfg->list.i = xmalloc (cfg->list_count * sizeof (int));
+            cfg->list.i = vlc_xmalloc (cfg->list_count * sizeof (int));
         else /* TODO: fix config_GetPszChoices() instead of this hack: */
             LOAD_IMMEDIATE(cfg->list.i_cb);
         for (unsigned i = 0; i < cfg->list_count; i++)
              LOAD_IMMEDIATE (cfg->list.i[i]);
     }
-    cfg->list_text = xmalloc (cfg->list_count * sizeof (char *));
+    cfg->list_text = vlc_xmalloc (cfg->list_count * sizeof (char *));
     for (unsigned i = 0; i < cfg->list_count; i++)
     {
         LOAD_STRING (cfg->list_text[i]);
@@ -326,7 +326,7 @@ size_t CacheLoad( vlc_object_t *p_this, const char *dir, module_cache_t **r )
         else
         {
             module->pp_shortcuts =
-                              xmalloc (sizeof (char **) * module->i_shortcuts);
+                              vlc_xmalloc (sizeof (char **) * module->i_shortcuts);
             for (unsigned j = 0; j < module->i_shortcuts; j++)
                 LOAD_STRING(module->pp_shortcuts[j]);
         }
@@ -358,7 +358,7 @@ size_t CacheLoad( vlc_object_t *p_this, const char *dir, module_cache_t **r )
             else
             {
                 submodule->pp_shortcuts =
-                           xmalloc (sizeof (char **) * submodule->i_shortcuts);
+                           vlc_xmalloc (sizeof (char **) * submodule->i_shortcuts);
                 for (unsigned j = 0; j < submodule->i_shortcuts; j++)
                     LOAD_STRING(submodule->pp_shortcuts[j]);
             }

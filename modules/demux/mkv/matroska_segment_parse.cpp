@@ -45,7 +45,7 @@ static inline void fill_extra_data( mkv_track_t *p_tk, unsigned int offset )
 {
     if(p_tk->i_extra_data <= offset) return;
     p_tk->fmt.i_extra = p_tk->i_extra_data - offset;
-    p_tk->fmt.p_extra = xmalloc( p_tk->fmt.i_extra );
+    p_tk->fmt.p_extra = vlc_xmalloc( p_tk->fmt.i_extra );
     if(!p_tk->fmt.p_extra) { p_tk->fmt.i_extra = 0; return; };
     memcpy( p_tk->fmt.p_extra, p_tk->p_extra_data + offset, p_tk->fmt.i_extra );
 }
@@ -1196,7 +1196,7 @@ int32_t matroska_segment_c::TrackInit( mkv_track_t * p_tk )
                 p_tk->fmt.i_extra = ( (unsigned)p_tk->fmt.i_extra < maxlen )?
                     p_tk->fmt.i_extra : maxlen;
 
-                p_tk->fmt.p_extra = xmalloc( p_tk->fmt.i_extra );
+                p_tk->fmt.p_extra = vlc_xmalloc( p_tk->fmt.i_extra );
                 memcpy( p_tk->fmt.p_extra, &p_bih[1], p_tk->fmt.i_extra );
             }
         }
@@ -1269,7 +1269,7 @@ int32_t matroska_segment_c::TrackInit( mkv_track_t * p_tk )
     }
     else if( !strcmp( p_tk->psz_codec, "V_QUICKTIME" ) )
     {
-        MP4_Box_t *p_box = (MP4_Box_t*)xmalloc( sizeof( MP4_Box_t ) );
+        MP4_Box_t *p_box = (MP4_Box_t*)vlc_xmalloc( sizeof( MP4_Box_t ) );
         stream_t *p_mp4_stream = stream_MemoryNew( VLC_OBJECT(&sys.demuxer),
                                                    p_tk->p_extra_data,
                                                    p_tk->i_extra_data,
@@ -1281,7 +1281,7 @@ int32_t matroska_segment_c::TrackInit( mkv_track_t * p_tk )
             p_tk->fmt.video.i_width = p_box->data.p_sample_vide->i_width;
             p_tk->fmt.video.i_height = p_box->data.p_sample_vide->i_height;
             p_tk->fmt.i_extra = p_box->data.p_sample_vide->i_qt_image_description;
-            p_tk->fmt.p_extra = xmalloc( p_tk->fmt.i_extra );
+            p_tk->fmt.p_extra = vlc_xmalloc( p_tk->fmt.i_extra );
             memcpy( p_tk->fmt.p_extra, p_box->data.p_sample_vide->p_qt_image_description, p_tk->fmt.i_extra );
             MP4_FreeBox_sample_vide( p_box );
         }
@@ -1326,7 +1326,7 @@ int32_t matroska_segment_c::TrackInit( mkv_track_t * p_tk )
             p_tk->fmt.i_extra            = GetWLE( &p_wf->cbSize );
             if( p_tk->fmt.i_extra > 0 )
             {
-                p_tk->fmt.p_extra = xmalloc( p_tk->fmt.i_extra );
+                p_tk->fmt.p_extra = vlc_xmalloc( p_tk->fmt.i_extra );
                 memcpy( p_tk->fmt.p_extra, &p_wf[1], p_tk->fmt.i_extra );
             }
         }
@@ -1414,7 +1414,7 @@ int32_t matroska_segment_c::TrackInit( mkv_track_t * p_tk )
         msg_Dbg( &sys.demuxer, "profile=%d srate=%d", i_profile, i_srate );
 
         p_tk->fmt.i_extra = sbr ? 5 : 2;
-        p_tk->fmt.p_extra = xmalloc( p_tk->fmt.i_extra );
+        p_tk->fmt.p_extra = vlc_xmalloc( p_tk->fmt.i_extra );
         ((uint8_t*)p_tk->fmt.p_extra)[0] = ((i_profile + 1) << 3) | ((i_srate&0xe) >> 1);
         ((uint8_t*)p_tk->fmt.p_extra)[1] = ((i_srate & 0x1) << 7) | (p_tk->fmt.audio.i_channels << 3);
         if (sbr != 0)
@@ -1449,7 +1449,7 @@ int32_t matroska_segment_c::TrackInit( mkv_track_t * p_tk )
         else
         {
             p_fmt->i_extra = 30;
-            p_fmt->p_extra = xmalloc( p_fmt->i_extra );
+            p_fmt->p_extra = vlc_xmalloc( p_fmt->i_extra );
             uint8_t *p_extra = (uint8_t*)p_fmt->p_extra;
             memcpy( &p_extra[ 0], "TTA1", 4 );
             SetWLE( &p_extra[ 4], 1 );

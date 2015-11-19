@@ -2025,8 +2025,8 @@ static int FindDevices( vlc_object_t *p_this, const char *psz_name,
     }
 
     unsigned count = 2 + list_devices.size(), i = 2;
-    char **values = (char **)xmalloc( count * sizeof(*values) );
-    char **texts = (char **)xmalloc( count * sizeof(*texts) );
+    char **values = (char **)vlc_xmalloc( count * sizeof(*values) );
+    char **texts = (char **)vlc_xmalloc( count * sizeof(*texts) );
 
     values[0] = strdup( "" );
     texts[0] = strdup( N_("Default") );

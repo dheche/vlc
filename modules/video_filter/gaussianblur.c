@@ -103,7 +103,7 @@ static void gaussianblur_InitDistribution( filter_sys_t *p_sys )
 {
     double f_sigma = p_sys->f_sigma;
     int i_dim = (int)(3.*f_sigma);
-    type_t *pt_distribution = xmalloc( (2*i_dim+1) * sizeof( type_t ) );
+    type_t *pt_distribution = vlc_xmalloc( (2*i_dim+1) * sizeof( type_t ) );
     int x;
 
     for( x = -i_dim; x <= i_dim; x++ )
@@ -216,7 +216,7 @@ static picture_t *Filter( filter_t *p_filter, picture_t *p_pic )
         const int i_pitch = p_pic->p[Y_PLANE].i_pitch;
         int i_col, i_line;
 
-        p_sys->pt_scale = xmalloc( i_visible_lines * i_pitch * sizeof( type_t ) );
+        p_sys->pt_scale = vlc_xmalloc( i_visible_lines * i_pitch * sizeof( type_t ) );
         pt_scale = p_sys->pt_scale;
 
         for( i_line = 0 ; i_line < i_visible_lines ; i_line++ )

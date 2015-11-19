@@ -24,13 +24,18 @@
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
-
+#include <sys/time.h>
+#include "../../vlc-dash_oml2.h"
 #include "RateBasedAdaptationLogic.h"
+
+extern oml_mps_t* g_oml_mps_vlc2;
 
 using namespace dash::logic;
 using namespace dash::xml;
 using namespace dash::http;
 using namespace dash::mpd;
+
+struct timeval tv2;
 
 RateBasedAdaptationLogic::RateBasedAdaptationLogic  (IMPDManager *mpdManager, stream_t *stream) :
                           AbstractAdaptationLogic   (mpdManager, stream),
@@ -43,6 +48,7 @@ RateBasedAdaptationLogic::RateBasedAdaptationLogic  (IMPDManager *mpdManager, st
     this->width  = var_InheritInteger(stream, "dash-prefwidth");
     this->height = var_InheritInteger(stream, "dash-prefheight");
 }
+
 
 Chunk*  RateBasedAdaptationLogic::getNextChunk()
 {
@@ -57,7 +63,15 @@ Chunk*  RateBasedAdaptationLogic::getNextChunk()
     if(this->getBufferPercent() < MINBUFFER)
         bitrate = 0;
 
+
     Representation *rep = this->mpdManager->getRepresentation(this->currentPeriod, bitrate, this->width, this->height);
+    gettimeofday(&tv2,NULL);
+    //fprintf(stderr,"Adaptation\t%f\t%lu\t%lu\n",  tv2.tv_sec + tv2.tv_usec/1000000.0, rep->getBandwidth(),bitrate);
+
+    oml_inject_dashRateAdaptation(g_oml_mps_vlc2->dashRateAdaptation,
+       (int64_t) rep->getBandwidth(),
+        (int64_t) this->getBpsAvg(), (int64_t) bitrate, (int64_t) this->getBufferPercent());
+
 
     if ( rep == NULL )
         return NULL;

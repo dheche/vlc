@@ -56,3 +56,10 @@ libvlc_LTLIBRARIES += \
 	libvod_rtsp_plugin.la \
 	$(NULL)
 endif
+
+libomlstats_plugin_la_SOURCES = omlstats.c
+libomlstats_plugin_la_CFLAGS = $(AM_CFLAGS)
+libomlstats_plugin_la_LIBADD = $(AM_LIBADD)
+libomlstats_plugin_la_DEPENDENCIES =
+libvlc_LTLIBRARIES += libomlstats_plugin.la
+

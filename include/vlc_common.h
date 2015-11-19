@@ -859,7 +859,7 @@ static inline const char *vlc_pgettext_aux( const char *ctx, const char *id )
 /*****************************************************************************
  * Loosy memory allocation functions. Do not use in new code.
  *****************************************************************************/
-static inline void *xmalloc (size_t len)
+static inline void *vlc_xmalloc (size_t len)
 {
     void *ptr = malloc (len);
     if (unlikely (ptr == NULL))

@@ -158,7 +158,7 @@ static int Open( vlc_object_t *p_this )
     {
         /* We have a vol */
         p_dec->fmt_out.i_extra = p_dec->fmt_in.i_extra;
-        p_dec->fmt_out.p_extra = xmalloc( p_dec->fmt_in.i_extra );
+        p_dec->fmt_out.p_extra = vlc_xmalloc( p_dec->fmt_in.i_extra );
         memcpy( p_dec->fmt_out.p_extra, p_dec->fmt_in.p_extra,
                 p_dec->fmt_in.i_extra );
 

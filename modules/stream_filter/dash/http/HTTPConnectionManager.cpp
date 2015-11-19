@@ -24,12 +24,21 @@
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
-
+#include <sys/time.h>
 #include "HTTPConnectionManager.h"
 #include "mpd/Segment.h"
 
+#define OML_FROM_MAIN
+#include "../../vlc-dash_oml2.h"
+#include <stddef.h>
+#include <oml2/omlc.h>
+
 using namespace dash::http;
 using namespace dash::logic;
+
+extern oml_mps_t* g_oml_mps_vlc2;
+
+struct timeval tv;
 
 const size_t    HTTPConnectionManager::PIPELINE               = 80;
 const size_t    HTTPConnectionManager::PIPELINELENGTH         = 2;
@@ -60,6 +69,22 @@ void                                HTTPConnectionManager::closeAllConnections  
 }
 int                                 HTTPConnectionManager::read                     (block_t *block)
 {
+   
+   if (this->timeSession==0) {
+    oml_register_mps();
+
+
+   int result = omlc_start();
+
+   if (result == -1) {
+     fprintf (stderr, "Error starting up OML measurement streams\n");
+     exit (1);
+   }
+  }
+  
+  
+  
+
     if(this->downloadQueue.size() == 0)
         if(!this->addChunk(this->adaptationLogic->getNextChunk()))
             return 0;
@@ -80,6 +105,7 @@ int                                 HTTPConnectionManager::read                 
 
     if(ret <= 0)
     {
+
         this->bpsLastChunk   = this->bpsCurrentChunk;
         this->bytesReadChunk = 0;
         this->timeChunk      = 0;
@@ -126,6 +152,24 @@ void                                HTTPConnectionManager::updateStatistics     
 
     this->bpsAvg            = (int64_t) ((this->bytesReadSession * 8) / this->timeSession);
     this->bpsCurrentChunk   = (int64_t) ((this->bytesReadChunk * 8) / this->timeChunk);
+
+    
+    oml_inject_dashDlSession(g_oml_mps_vlc2->dashDlSession, 
+    	(int32_t) this->chunkCount,
+        (int32_t) this->bytesReadSession, 
+    	(int32_t) this->bytesReadChunk,
+        (double) this->timeSession,
+        (double) this->timeChunk);
+   gettimeofday(&tv,NULL);
+    /*
+    fprintf(stderr,"HTTPConnection\t%f\t%ld\t\t%ld\t%d\t%f\t%f\n",
+      tv.tv_sec + tv.tv_usec/1000000.0,
+      this->chunkCount,
+      this->bytesReadSession,
+      this->bytesReadChunk,
+      this->timeSession,
+      this->timeChunk);
+    */
 
     if(this->bpsAvg < 0)
         this->bpsAvg = 0;

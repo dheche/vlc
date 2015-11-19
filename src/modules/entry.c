@@ -176,7 +176,7 @@ static int vlc_plugin_setter (void *plugin, void *tgt, int propid, ...)
                 break;
             }
             /* Inheritance. Ugly!! */
-            submodule->pp_shortcuts = xmalloc (sizeof (char **));
+            submodule->pp_shortcuts = vlc_xmalloc (sizeof (char **));
             submodule->pp_shortcuts[0] = strdup_null (module->pp_shortcuts[0]);
             submodule->i_shortcuts = 1; /* object name */
 
@@ -385,7 +385,7 @@ static int vlc_plugin_setter (void *plugin, void *tgt, int propid, ...)
             if (IsConfigIntegerType (item->i_type))
             {
                 const int *src = va_arg (ap, const int *);
-                int *dst = xmalloc (sizeof (int) * len);
+                int *dst = vlc_xmalloc (sizeof (int) * len);
 
                 memcpy (dst, src, sizeof (int) * len);
                 item->list.i = dst;
@@ -394,7 +394,7 @@ static int vlc_plugin_setter (void *plugin, void *tgt, int propid, ...)
             if (IsConfigStringType (item->i_type))
             {
                 const char *const *src = va_arg (ap, const char *const *);
-                char **dst = xmalloc (sizeof (char *) * len);
+                char **dst = vlc_xmalloc (sizeof (char *) * len);
 
                 for (size_t i = 0; i < len; i++)
                      dst[i] = src[i] ? strdup (src[i]) : NULL;
@@ -405,7 +405,7 @@ static int vlc_plugin_setter (void *plugin, void *tgt, int propid, ...)
 
             /* Copy textual descriptions */
             const char *const *text = va_arg (ap, const char *const *);
-            char **dtext = xmalloc (sizeof (char *) * (len + 1));
+            char **dtext = vlc_xmalloc (sizeof (char *) * (len + 1));
             for (size_t i = 0; i < len; i++)
                 dtext[i] = text[i] ? strdup (text[i]) : NULL;
             item->list_text = dtext;

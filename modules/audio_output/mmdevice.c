@@ -497,8 +497,8 @@ static int DevicesEnum(audio_output_t *aout, char ***idp, char ***namep)
     else
         msg_Dbg(aout, "Available Windows Audio devices:");
 
-    char **ids = xmalloc (count * sizeof (*ids));
-    char **names = xmalloc (count * sizeof (*names));
+    char **ids = vlc_xmalloc (count * sizeof (*ids));
+    char **names = vlc_xmalloc (count * sizeof (*names));
     unsigned n = 0;
 
     for (UINT i = 0; i < count; i++)
